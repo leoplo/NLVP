@@ -23,7 +23,7 @@ Optical Character Recognition is done by [tesseract-ocr](https://tesseract-ocr.g
 ### Debian
 
 ```bash
-# apt install python3-pip tesseract-ocr libtesseract-dev libcairo2-dev
+# apt install python3-pip tesseract-ocr
 $ pip3 install pytesseract pdf2image
 ```
 
