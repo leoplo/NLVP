@@ -38,7 +38,7 @@ $ ./nlvp path_to_pdf_file
 Search for keywords `autorisation` and `vidéosurveillance`
 ```bash
 $ ./nlvp path_to_pdf_file -k autorisation vidéosurveillance
-
+```
 
 ## test cases
 
