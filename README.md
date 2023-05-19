@@ -33,19 +33,19 @@ $ pip3 install pytesseract pdf2image
 
 ### pdf file path
 
-Edit [nlvp.py](nlvp.py#L4) to set the path of the file on which text recognition should be done.
+Edit [nlvp.py](nlvp.py#L6) to set the path of the file on which text recognition should be done.
 
 
 ### keywords
 
 
-Edit [nlvp.py](nlvp.py#L5) to set the list for searched keywords.
+Edit [nlvp.py](nlvp.py#L7) to set the list for searched keywords.
 
 
 ### run
 
 ```bash
-$ python3 nlvp.py
+$ ./nlvp
 ```
 
 
