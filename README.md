@@ -30,17 +30,14 @@ $ pip3 install pytesseract pdf2image
 
 ## usage
 
-
-### keywords
-
-Edit [nlvp.py](nlvp.py#L11) to set the list for searched keywords.
-
-
-### run
-
+Search for keyword `vidéoprotection`:
 ```bash
 $ ./nlvp path_to_pdf_file
 ```
+
+Search for keywords `autorisation` and `vidéosurveillance`
+```bash
+$ ./nlvp path_to_pdf_file -k autorisation vidéosurveillance
 
 
 ## test cases
