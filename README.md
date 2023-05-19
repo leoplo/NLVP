@@ -1,20 +1,23 @@
 # NLVP
-short script to find keywords about video surveillance in french "actes administratifs"
+
+Tool to find keywords in scanned PDFs initially created to go through french
+"actes administratifs".
 
 
 ## collaborative maps
 
 [https://sunders.uber.space/](https://sunders.uber.space/) and
-[https://www.sous-surveillance.net/-la-carte-.html](https://www.sous-surveillance.net/-la-carte-.html) are 2
-collaborative maps to which anyone can contribute. To locate surveillance devices in France one should go through
-"actes administratifs" as indicated in the "[guide vidéosurveillance de Technopolice](https://technopolice.fr/guide-videosurveillance.pdf)".
-
-This script intends to go through these documents to find pages mentioning surveillance devices.
+[https://www.sous-surveillance.net/-la-carte-.html](https://www.sous-surveillance.net/-la-carte-.html)
+are 2 collaborative maps to which anyone can contribute.
+To locate surveillance devices in France one should go through
+"actes administratifs" as indicated in the
+"[guide vidéosurveillance de Technopolice](https://technopolice.fr/guide-videosurveillance.pdf)".
 
 
 ## dependencies
 
-Optical Character Recognition is done by [tesseract-ocr](https://tesseract-ocr.github.io/).
+Optical Character Recognition is done by
+[tesseract-ocr](https://tesseract-ocr.github.io/).
 
 
 ## installation
@@ -30,14 +33,24 @@ $ pip3 install pytesseract pdf2image
 
 ## usage
 
-Search for keyword `vidéoprotection`:
+
+### GUI
+
 ```bash
-$ ./nlvp path_to_pdf_file
+$ ./nlvp
+```
+
+
+### CLI
+
+Search for keyword `vidéoprotection` (default keyword)
+```bash
+$ ./nlvp --cli -f path_to_pdf_file
 ```
 
 Search for keywords `autorisation` and `vidéosurveillance`
 ```bash
-$ ./nlvp path_to_pdf_file -k autorisation vidéosurveillance
+$ ./nlvp --cli -f path_to_pdf_file -k autorisation vidéosurveillance
 ```
 
 ## test cases
