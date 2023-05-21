@@ -7,20 +7,13 @@ import os
 from pdf2image import convert_from_path
 from tkinter import filedialog, ttk, END, Frame, Text
 
-def on_keyword_found(progress, keyword_index, found_str):
-    print(found_str)
-    update_progress(progress)
+PROGRESS_BAR_STRING_SIZE = 38
 
-def update_progress(progress):
+def on_keyword_found(_, found_str):
+    print(found_str)
+
+def update_progress_bar(progress):
     bar_length = 20
-    if isinstance(progress, int):
-        progress = float(progress)
-    if not isinstance(progress, float):
-        progress = 0
-    if progress < 0:
-        progress = 0
-    if progress >= 1:
-        progress = 1
 
     block = int(round(bar_length * progress))
     text = 'Progress: [{0}] {1:.1f}%'.format(
@@ -28,19 +21,18 @@ def update_progress(progress):
     )
     print(text, end='\r')
 
-def search(path, keyword_list, found_action):
+def search(path, keyword_list, update_progress, found_action):
+    update_progress(0)
     image_list = convert_from_path(path)
-    keyword_nb = len(keyword_list)
-    nb_step = len(image_list) * keyword_nb
     for page_number, page_data in enumerate(image_list):
         text = pytesseract.image_to_string(page_data)
         for keyword_index, keyword in enumerate(keyword_list):
             if keyword in text:
-                found_action(
-                    (page_number * keyword_nb + keyword_index) / nb_step,
-                    keyword_index,
-                    'Found %s page %s             ' % (keyword, page_number),
-                )
+                found_str = 'Found %s page %s' % (keyword, page_number)
+                if len(found_str) < PROGRESS_BAR_STRING_SIZE:
+                    found_str = '%s%s' % (found_str, ' ' * (PROGRESS_BAR_STRING_SIZE - len(found_str)))
+                found_action(keyword_index, found_str)
+        update_progress((page_number + 1) / len(image_list))
 
 class Application(ttk.Frame):
     def __init__(self, keyword_list, master=None):
@@ -76,7 +68,8 @@ class Application(ttk.Frame):
 
         self.progressbar = ttk.Progressbar(
             self,
-            length=self.keyword_list_text['width'] * 8
+            length=self.keyword_list_text['width'] * 8,
+            maximum=1,
         )
         self.progressbar.grid(row=2, column=1)
 
@@ -84,9 +77,6 @@ class Application(ttk.Frame):
         self.quit_button.grid(row=4)
 
     def display_found_keywords(self):
-        self.progressbar.configure(value=0, maximum=1)
-        self.progressbar.update()
-
         keyword_list = [keyword
             for keyword in self.keyword_list_text.get('1.0', END).split('\n')
             if keyword
@@ -97,16 +87,17 @@ class Application(ttk.Frame):
         self.keyword_found_label_list = []
         for index in range(len(keyword_list)):
             label = ttk.Label(self)
-            label.grid(row=3, column=index) 
+            label.grid(row=3, column=index)
             self.keyword_found_label_list.append(label)
 
-        search(self.filename, keyword_list, self.on_keyword_found)
-        self.progressbar.configure(value=1)
+        search(
+            self.filename,
+            keyword_list,
+            self.update_progress,
+            self.on_keyword_found,
+        )
 
-    def on_keyword_found(self, progress, keyword_index, found_str):
-        self.progressbar.configure(value=progress)
-        self.progressbar.update()
-
+    def on_keyword_found(self, keyword_index, found_str):
         label = self.keyword_found_label_list[keyword_index]
         label.configure(text='%s%s\n' % (label['text'], found_str))
         label.update()
@@ -120,6 +111,10 @@ class Application(ttk.Frame):
             self.select_file_label.configure(
                 text=os.path.basename(self.filename),
             )
+
+    def update_progress(self, progress):
+        self.progressbar.configure(value=progress)
+        self.progressbar.update()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--cli', action='store_true')
@@ -139,6 +134,5 @@ if not args.cli:
 else:
     if args.file is None:
         parser.error('Requiring file path for cli mode')
-    search(args.file, args.keyword_list, on_keyword_found)
-    update_progress(1)
+    search(args.file, args.keyword_list, update_progress_bar, on_keyword_found)
     print()
