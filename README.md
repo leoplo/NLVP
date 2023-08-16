@@ -4,9 +4,16 @@ Tool to find keywords in scanned PDFs initially created to go through french
 "actes administratifs".
 
 
+## about video surveillance
+
+The french booklet [Pas vue pas prise](https://we.riseup.net/assets/881357/Texte-v1.pdf) is pretty exhaustive on what
+there is to know about video surveillance.
+
+
 ## collaborative maps
 
-[https://sunders.uber.space/](https://sunders.uber.space/) and
+[https://sunders.uber.space/](https://sunders.uber.space/)
+([tor link](https://sunders.ahcabagldgzdpa74g2mh74fvk5zjzpfjbvgqin6g3mfuu66tynv2gkiid.onion/)) and
 [https://www.sous-surveillance.net/-la-carte-.html](https://www.sous-surveillance.net/-la-carte-.html)
 are 2 collaborative maps to which anyone can contribute.
 To locate surveillance devices in France one should go through
